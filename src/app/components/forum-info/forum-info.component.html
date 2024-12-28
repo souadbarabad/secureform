@@ -1,0 +1,47 @@
+<form [formGroup]="infoForm" (ngSubmit)="submitForm()" style="padding: 50px">
+  <div>
+    <label for="name">name</label>
+    <input 
+        type="text" 
+        id="name" 
+        formControlName="name" 
+        placeholder="name"
+    />
+    <div *ngIf="infoForm.get('name')?.invalid && infoForm.get('name')?.touched">
+        <span *ngIf="infoForm.get('name')?.hasError('required')">Le nom est requis.</span>
+        <span *ngIf="infoForm.get('name')?.hasError('minlength')">Minimum 3 caractères.</span>
+    </div>
+  </div>
+
+
+  <div>
+    <label for="email">email</label>
+    <input 
+        type="text" 
+        id="email" 
+        formControlName="email" 
+        placeholder="email" 
+    />
+    <div *ngIf="infoForm.get('email')?.invalid && infoForm.get('email')?.touched">
+        <span *ngIf="infoForm.get('email')?.hasError('required')">L'email est requis.</span>
+        <span *ngIf="infoForm.get('email')?.hasError('email')">Email invalide.</span>
+    </div>
+  </div>
+  <div>
+    <label for="password">password</label>
+    <input 
+        type="password"
+        id="password" 
+        formControlName="password" 
+        placeholder="password"
+    />
+    <div *ngIf="infoForm.get('password')?.invalid && infoForm.get('password')?.touched">
+        <span *ngIf="infoForm.get('password')?.hasError('required')">Le mot de passe est requis.</span>
+        <span *ngIf="infoForm.get('password')?.hasError('minlength')">Minimum 6 caractères.</span>
+    </div>
+  </div>
+
+  <div>
+    <button type="submit" [disabled]="!infoForm.valid">submit</button>
+  </div>
+</form>
