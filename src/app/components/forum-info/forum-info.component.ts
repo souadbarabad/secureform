@@ -10,17 +10,15 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 export class ForumInfoComponent {
 
   infoForm !: FormGroup ;
-  sanitizedContent!: SafeHtml;
 
   constructor( private formbuilder:FormBuilder, private sanitizer: DomSanitizer){
-    this.infoForm= this.formbuilder.group({
+    this.infoForm= this.formbuilder.group({ 
       name: ['', [Validators.required, Validators.minLength(3)]],
       email:['', [Validators.required, Validators.email]],
       password:['',[Validators.required,Validators.minLength(8)]], 
     })
       
   }
-    // Méthode pour nettoyer et sécuriser les données
     sanitizeFormData(data: { name: string; email: string; password: string }) {
       return {
         name: this.sanitizeInput(data.name),
@@ -29,25 +27,12 @@ export class ForumInfoComponent {
       };
     }
 
-    // Méthode de sanitization
   sanitizeInput(input: string): string {
     let sanitized = this.sanitizer.sanitize(SecurityContext.HTML, input);
-    // Sanitization en mode HTML
     if (sanitized) {
-      sanitized = sanitized.replace(/<script[^>]*?>.*?<\/script>/gi, ''); // Supprime les balises <script>
-      sanitized = sanitized.replace(/<\/?[^>]+(>|$)/g, ''); // Supprime toutes les autres balises HTML
+      sanitized = sanitized.replace(/<\/?[^>]+(>|$)/g, ''); 
     }
-    return sanitized ? this.escapeHtml(sanitized) : '';
-
-  }
-  escapeHtml(input: string): string {
-    // Remplacer les caractères spéciaux par leurs entités HTML
-    return input
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
+    return sanitized ? sanitized : '';
   }
 
   submitForm(){
